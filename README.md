@@ -5,14 +5,12 @@ This is the code repository for **Return of the LSTM: Non-B DNA Generation**.
 
 Weights, generated sequences, processed datasets and training curves are on [Hugging Face](https://huggingface.co/vsemmir13/return-of-the-lstm-nonb-dna).
 
-## Available models
+## Models
 
-The release contains three unconditional LSTMs trained on G4-associated cores (13–49 nt) and genomic contexts of 512 and 1,024 nt.
-All have 3,662,383 trainable parameters and the same architecture: token embedding 128, two LSTM layers with hidden size 372, a residual MLP block and a nucleotide output head.
-Each was trained for 50 epochs. The selected validation-best epochs are 15, 31 and 38, respectively.
+- **LSTM:** autoregressive DNA generation, with unconditional and Tm-conditioned architectures.
+- **Discrete Flow Matching:** convolutional DNA generation with Tm conditioning and an unconditional mode.
 
-Tm-conditioned LSTM and Discrete Flow Matching architectures are included in the code, but their trained weights are not yet released.
-The Tm condition refers to the embedded G4 core, not the melting temperature of the entire long sequence.
+Hugging Face currently contains unconditional LSTM weights for short, 512-nt and 1,024-nt sequences. Other weights are not yet released.
 
 ## Load a model
 
