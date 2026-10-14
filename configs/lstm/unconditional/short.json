@@ -32,5 +32,6 @@
     "PAD": 6,
     "T": 3
   },
-  "trainable_parameters": 3662383
+  "trainable_parameters": 3662383,
+  "selected_epoch_one_based": 15
 }

@@ -27,8 +27,6 @@ datasets/g4_tm/
   nt1024/{train.csv,validation.csv}
   README.md
   schema.json
-  manifest.json
-  SHA256SUMS
 ```
 
 Each regime contains 31,669 train and 5,000 validation records. ID order, splits, labels and all exported source fields are preserved. No test rows or test IDs are uploaded. Test remains held out locally; it is still needed for final evaluation.
