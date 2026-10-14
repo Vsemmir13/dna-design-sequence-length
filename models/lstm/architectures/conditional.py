@@ -1,4 +1,4 @@
-"""Tm-conditioned architecture only; verified weights not in the initial release."""
+"""Autoregressive DNA model conditioned on G4-core melting temperature."""
 import torch
 from torch import nn
 

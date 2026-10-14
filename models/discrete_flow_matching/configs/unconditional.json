@@ -1,0 +1,16 @@
+{
+  "role": "untrained architecture reference; not the joint model null branch",
+  "architecture": {
+    "vocab_size": 5,
+    "hidden_dim": 128,
+    "num_cnn_stacks": 4,
+    "p_dropout": 0.3,
+    "num_classes": 1,
+    "cls_free_guidance": false
+  },
+  "trainable_parameters": 3326597,
+  "fixed_fourier_parameters": 64,
+  "source_repository": "https://github.com/hashaam13/flow",
+  "source_commit": "cf186ba7f8551d2c305b79a863d569eed86665b7",
+  "trained_checkpoint": false
+}

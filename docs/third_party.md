@@ -1,4 +1,4 @@
-# Third-party provenance
+# Sources and licensing
 
 ## Discrete Flow Matching
 

@@ -1,0 +1,54 @@
+{
+  "role": "joint temperature-conditioned and null-condition generation",
+  "architecture": {
+    "vocab_size": 5,
+    "hidden_dim": 128,
+    "num_cnn_stacks": 4,
+    "p_dropout": 0.3,
+    "cond_dim": 8,
+    "tm_mean": 57.84716468707569,
+    "tm_std": 8.054890567895972
+  },
+  "trainable_parameters": 3658205,
+  "fixed_fourier_parameters": 64,
+  "source_repository": "https://github.com/hashaam13/flow",
+  "source_commit": "cf186ba7f8551d2c305b79a863d569eed86665b7",
+  "method_repository": "https://github.com/facebookresearch/flow_matching",
+  "method_commit": "11568d37f8d5a080e12aa7b5305d9c35ae07d136",
+  "regimes": {
+    "short": {"length_nt": [13, 49], "microbatch_size": 256},
+    "nt512": {"length_nt": [512, 512], "microbatch_size": 128},
+    "nt1024": {"length_nt": [1024, 1024], "microbatch_size": 64}
+  },
+  "training": {
+    "seed": 42,
+    "maximum_epochs": 600,
+    "minimum_epochs": 50,
+    "early_stopping_patience": 20,
+    "early_stopping_min_delta": 0.001,
+    "global_batch_size": 1024,
+    "optimizer": "AdamW",
+    "learning_rate": 0.0005,
+    "warmup_steps": 500,
+    "loss": "MixturePathGeneralizedKL",
+    "source": "MASK",
+    "path": "PolynomialConvexScheduler(n=2)",
+    "condition_drop_probability": 0.3,
+    "gradient_clip_norm": 1.0,
+    "precision": "FP32",
+    "checkpoint_selection": "minimum fixed-validation 0.7*conditional_GKL + 0.3*null_GKL"
+  },
+  "length_encoder": false,
+  "sampling": {
+    "seed": 42,
+    "solver": "MixtureDiscreteEulerSolver",
+    "steps": 100,
+    "interval": [0.0, 0.999],
+    "cfg_scale": 3.0,
+    "length_prior_split": "train",
+    "conditional_samples": 5000,
+    "null_condition_samples": 5000,
+    "targets_celsius": [45, 50, 55, 60, 65, 70, 75, 80],
+    "samples_per_target": 625
+  }
+}

@@ -1,4 +1,4 @@
-"""Architecture only. State-dict compatible with the new unconditional runs."""
+"""Unconditional autoregressive DNA model."""
 import torch
 from torch import nn
 

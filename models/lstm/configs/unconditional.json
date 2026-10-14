@@ -1,0 +1,34 @@
+{
+  "model_class": "G4LSTM",
+  "architecture": {
+    "vocab_size": 7,
+    "emb_dim": 128,
+    "hidden_dim": 372,
+    "num_layers": 2,
+    "mlp_layers": 1,
+    "dropout": 0.2
+  },
+  "trainable_parameters": 3662383,
+  "tokens": {"A": 0, "C": 1, "G": 2, "T": 3, "BOS": 4, "EOS": 5, "PAD": 6},
+  "regimes": {
+    "short": {"length_nt": [13, 49], "microbatch_size": 512, "accumulate_grad_batches": 1},
+    "nt512": {"length_nt": [512, 512], "microbatch_size": 128, "accumulate_grad_batches": 4},
+    "nt1024": {"length_nt": [1024, 1024], "microbatch_size": 64, "accumulate_grad_batches": 8}
+  },
+  "training": {
+    "seed": 42,
+    "epochs": 50,
+    "effective_batch_size": 512,
+    "optimizer": "Adam",
+    "learning_rate": 0.0005,
+    "loss": "cross_entropy",
+    "padding_target": -100,
+    "precision": "16-mixed",
+    "gradient_clip_norm": 1.0,
+    "drop_last_effective_batch": true,
+    "checkpoint_selection": "minimum full-validation cross-entropy"
+  },
+  "sampling": {"seed": 42, "temperature": 1.0, "top_k": 0, "length_prior_split": "train"},
+  "length_encoder": false,
+  "temperature_encoder": false
+}

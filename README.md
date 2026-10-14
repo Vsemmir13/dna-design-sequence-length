@@ -1,43 +1,46 @@
-# Non-B DNA Generation
+# Return of the LSTM: Non-B DNA Generation
 
-PyTorch architectures and loading code for G-quadruplex-associated DNA generation.
-This is the code repository for **Return of the LSTM: Non-B DNA Generation**.
+Models for generating G-quadruplex-associated DNA: short sequences of 13–49 nucleotides and genomic windows of 512 or 1,024 nucleotides around G4 loci.
 
-Weights, generated sequences, processed datasets and training curves are on [Hugging Face](https://huggingface.co/vsemmir13/return-of-the-lstm-nonb-dna).
+- **LSTM** generates DNA one nucleotide at a time.
+- **Discrete Flow Matching** uses a convolutional network to update a whole sequence over sampling steps.
 
-## Models
+The models support unconditional generation and conditioning on the melting temperature (Tm) of a G4 core. Tm labels are predictions, not experimental measurements; for long windows they describe the embedded core, not the entire sequence.
 
-- **LSTM:** autoregressive DNA generation, with unconditional and Tm-conditioned architectures.
-- **Discrete Flow Matching:** convolutional DNA generation with Tm conditioning and an unconditional mode.
+[Hugging Face: weights, generated sequences, datasets and training curves](https://huggingface.co/vsemmir13/return-of-the-lstm-nonb-dna)
 
-Hugging Face currently contains unconditional LSTM weights for short, 512-nt and 1,024-nt sequences. Other weights are not yet released.
+## Repository layout
 
-## Load a model
+```text
+models/
+  lstm/
+    configs/
+      unconditional.json
+      conditional.json
+    architectures/
+      unconditional.py
+      conditional.py
+  discrete_flow_matching/
+    configs/
+      unconditional.json
+      conditional.json
+    architectures/
+      unconditional.py
+      conditional.py
+docs/
+README.md
+requirements.txt
+```
+
+`architectures` contains the PyTorch model definitions; `configs` records their dimensions and experiment settings. The unconditioned Discrete Flow Matching file is an architecture reference. The joint Tm-trained model uses `conditional.py` for both temperature-conditioned and null-condition generation.
+
+## Getting started
 
 ```bash
 python -m pip install -r requirements.txt
-hf auth login
-python scripts/load_lstm.py --regime short
 ```
 
-Use `--regime nt512` or `--regime nt1024` for long sequences.
-The loader loads the architecture strictly and runs a CPU forward check.
-It does not launch training or create a new generation cohort.
+See [LSTM](docs/lstm.md), [Discrete Flow Matching](docs/discrete_flow_matching.md) and [datasets](docs/dataset.md). The DFM architecture requires the pinned author checkout described in [sources](docs/third_party.md).
 
-## Files
-
-```text
-models/lstm/{unconditional,conditional}/architecture.py
-models/discrete_flow_matching/architecture.py
-configs/lstm/unconditional/{short,nt512,nt1024}.json
-scripts/load_lstm.py
-docs/{dataset,lstm,discrete_flow_matching}.md
-tests/test_architectures.py
-```
-
-See [LSTM](docs/lstm.md), [Discrete Flow Matching](docs/discrete_flow_matching.md) and [dataset](docs/dataset.md) notes for architecture and data details.
-The Discrete Flow Matching adapter requires the pinned author's CNN checkout; it does not redistribute that source. Instructions and dependencies are listed in [THIRD_PARTY.md](THIRD_PARTY.md).
-
-Training curves are in the Hugging Face **Metrics** tab. DNA datasets and weights are stored there, not in this GitHub repository.
-Evaluation of generation quality for the newly released models is not finished. Predictor-derived Tm labels and generated structures are not experimental measurements.
+This repository contains only architectures, configs and documentation. Weights and data live on Hugging Face; training curves are available in its Metrics tab. The manuscript will be added here when it is ready.
 

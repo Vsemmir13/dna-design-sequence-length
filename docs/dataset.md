@@ -9,7 +9,7 @@ This snapshot uses the frozen paired G4 length-comparison campaign, not the olde
 - Test is not used for training, normalization or checkpoint selection.
 - Unconditional LSTM used effective batch 512 with a dropped final incomplete effective batch: 74,752 training examples per epoch. Validation used all 12,343 rows.
 
-## Tm cohort — weights not yet released
+## Tm cohort
 
 Finite G4STAB reference-core predictions with ensemble SD ≤5 °C yield 31,669 train / 5,000 validation / 1,123 test rows. The same qualified IDs apply to all three lengths.
 Train-only normalization: mean 57.84716468707569 °C, sample SD 8.054890567895972 °C.

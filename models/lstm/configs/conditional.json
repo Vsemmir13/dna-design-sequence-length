@@ -1,0 +1,42 @@
+{
+  "model_class": "G4TmLSTM",
+  "architecture": {
+    "vocab_size": 7,
+    "emb_dim": 128,
+    "hidden_dim": 372,
+    "num_layers": 2,
+    "mlp_layers": 1,
+    "dropout": 0.2,
+    "cond_dim": 8,
+    "tm_mean": 57.84716468707569,
+    "tm_std": 8.054890567895972
+  },
+  "trainable_parameters": 3665463,
+  "regimes": {
+    "short": {"length_nt": [13, 49], "microbatch_size": 512, "accumulate_grad_batches": 1},
+    "nt512": {"length_nt": [512, 512], "microbatch_size": 128, "accumulate_grad_batches": 4},
+    "nt1024": {"length_nt": [1024, 1024], "microbatch_size": 64, "accumulate_grad_batches": 8}
+  },
+  "training": {
+    "seed": 42,
+    "epochs": 50,
+    "effective_batch_size": 512,
+    "optimizer": "Adam",
+    "learning_rate": 0.0005,
+    "loss": "cross_entropy",
+    "padding_target": -100,
+    "precision": "16-mixed",
+    "gradient_clip_norm": 1.0,
+    "drop_last_effective_batch": true,
+    "checkpoint_selection": "minimum full-validation cross-entropy"
+  },
+  "temperature_encoder": {"layers": [1, 8, 8], "activation": "SiLU", "label_scope": "G4 core"},
+  "length_encoder": false,
+  "sampling": {
+    "seed": 42,
+    "temperature": 1.0,
+    "length_prior_split": "train",
+    "targets_celsius": [45, 50, 55, 60, 65, 70, 75, 80],
+    "samples_per_target": 625
+  }
+}

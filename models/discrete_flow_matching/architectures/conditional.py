@@ -1,12 +1,9 @@
-"""Our Tm adapter; load the pinned author CNN without redistributing its source."""
-import hashlib
-import importlib.util
-from pathlib import Path
+"""Author CNN with continuous Tm conditioning and a learned null condition."""
 
 import torch
 from torch import nn
 
-AUTHOR_MODEL_SHA256 = "41488cd15de322aef0c2a3953937059bc918deb498b4b85a4887d99607529847"
+from .unconditional import load_author_cnn
 
 
 class TemperatureEncoder(nn.Module):
@@ -45,23 +42,11 @@ class TmConditionEmbedding(nn.Module):
         return torch.where(present, embedding, self.null_embedding.unsqueeze(0))
 
 
-def make_discrete_flow_model(*, source_dir, conditional=False, tm_mean=0., tm_std=1.):
-    """Build the exact source CNN, with optional declared continuous-Tm adapter.
+def make_discrete_flow_model(*, source_dir, tm_mean=0., tm_std=1.):
+    """Load the pinned author architecture and replace its categorical condition."""
+    CNNModel = load_author_cnn(source_dir)
 
-    The caller supplies the checked-out author repository explicitly. This function
-    performs no network access, cloning, training or checkpoint loading.
-    """
-    path = Path(source_dir).resolve()/"dna_model.py"
-    if hashlib.sha256(path.read_bytes()).hexdigest() != AUTHOR_MODEL_SHA256:
-        raise ValueError("Author source differs from the pinned audited implementation")
-    spec = importlib.util.spec_from_file_location("nonb_dna_author_cnn", path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    if not conditional:
-        return module.CNNModel(vocab_size=5, hidden_dim=128, num_cnn_stacks=4,
-                               p_dropout=.3, num_classes=1, cls_free_guidance=False)
-
-    class TmDiscreteFlowCNN(module.CNNModel):
+    class TmDiscreteFlowCNN(CNNModel):
         def __init__(self):
             super().__init__(vocab_size=5, hidden_dim=128, num_cnn_stacks=4,
                              p_dropout=.3, num_classes=1, cls_free_guidance=True)

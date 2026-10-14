@@ -14,7 +14,7 @@ Training: upstream Meta generalized KL, MASK source, quadratic path, AdamW 5e-4,
 Maximum 600 epochs; minimum 50, validation patience 20 and minimum significant improvement 0.001. Strict-minimum checkpoint selection is separate from plateau stopping; budget stopping is a separate status.
 Sampling: original author wrapper, 100 solver steps / 200 CNN forwards, CFG scale 3. MASK outcomes are not suppressed, replaced or topped up.
 
-The active campaign's final weights and generations are not included until completed and SHA-verified.
+Available checkpoints and generated samples are listed on [Hugging Face](https://huggingface.co/vsemmir13/return-of-the-lstm-nonb-dna).
 
 ## Load the upstream architecture without vendoring it
 
@@ -23,5 +23,19 @@ git clone https://github.com/hashaam13/flow external/author-flow
 git -C external/author-flow checkout cf186ba7f8551d2c305b79a863d569eed86665b7
 ```
 
-Pass that checkout path explicitly to `make_discrete_flow_model(source_dir=..., conditional=True, tm_mean=..., tm_std=...)` from `models.discrete_flow_matching.architecture`. The loader verifies `dna_model.py` before import. See THIRD_PARTY.md for the licensing boundary.
+Use a checkout outside this repository. The architecture files import the pinned CNN without copying its source here.
+
+```python
+from models.discrete_flow_matching.architectures.conditional import make_discrete_flow_model
+
+model = make_discrete_flow_model(
+    source_dir="/path/to/author-flow",
+    tm_mean=57.84716468707569,
+    tm_std=8.054890567895972,
+)
+```
+
+Call `model(tokens, time, condition)`: tokens are `[batch, length]`, time is `[batch]`, and condition is `[batch, 2]`. A row `[60, 1]` requests 60 °C; `[0, 0]` selects the learned null condition. The output is `[batch, length, 5]` nucleotide/MASK logits. This forward call is not a complete sampler.
+
+`architectures/unconditional.py` builds the clean unconditioned source reference. It is not the joint checkpoint with its temperature switched off. The two JSON configs make this distinction explicit. See [sources](third_party.md) for the upstream repositories and terms.
 
