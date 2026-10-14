@@ -9,9 +9,14 @@ Completed training and verified transfer do not establish biological quality. Ne
 ## Code and artifacts
 
 - GitHub: [Vsemmir13/return-of-the-lstm-nonb-dna](https://github.com/Vsemmir13/return-of-the-lstm-nonb-dna).
-- Weights and frozen generated cohorts: [vsemmir13/return-of-the-lstm-nonb-dna on Hugging Face](https://huggingface.co/vsemmir13/return-of-the-lstm-nonb-dna).
+- Weights, frozen generated cohorts and processed Tm datasets: [vsemmir13/return-of-the-lstm-nonb-dna on Hugging Face](https://huggingface.co/vsemmir13/return-of-the-lstm-nonb-dna).
 - GitHub contains architecture classes, a safe weight loader, configurations, documentation and tests. It contains no checkpoints, generated cohorts, dataset CSVs, credentials or cloud-operation scripts.
-- Hugging Face contains tensor-only `model.safetensors`, per-run metadata, original 5,000-row generated cohorts, training CSVs and SHA-256 inventories. Optimizer states and original pickle checkpoints are not uploaded.
+- Hugging Face contains tensor-only `model.safetensors`, per-run metadata, original 5,000-row generated cohorts, training CSVs, processed Tm train/validation datasets and SHA-256 inventories. Optimizer states, original pickle checkpoints and held-out test rows are not uploaded.
+
+## Processed Tm datasets
+
+On Hugging Face, `datasets/g4_tm/{short,nt512,nt1024}/{train.csv,validation.csv}` contains 31,669 train and 5,000 validation rows per regime. The three lengths share frozen sample IDs, splits and reference-core Tm labels. No test rows or test IDs are uploaded.
+Short sequences are 13–49 nt; long sequences are real 512/1,024-nt hg38 windows. Tm is a G4STAB prediction for the embedded core, not the entire window. See [dataset notes](docs/dataset.md).
 
 ## Initial verified weights
 

@@ -16,5 +16,23 @@ Train-only normalization: mean 57.84716468707569 °C, sample SD 8.05489056789597
 These are core-level computational predictions, not experimental melting temperatures or whole-window Tm.
 The null branch of a jointly Tm-trained model uses this qualified subset and is not a full-data unconditional baseline.
 
-Real training sequences and IDs are not included in this initial weights-and-generation release.
+## Uploaded data
+
+The private [Hugging Face repository](https://huggingface.co/vsemmir13/return-of-the-lstm-nonb-dna/tree/main/datasets/g4_tm) now includes the qualified Tm train/validation subset:
+
+```text
+datasets/g4_tm/
+  short/{train.csv,validation.csv}
+  nt512/{train.csv,validation.csv}
+  nt1024/{train.csv,validation.csv}
+  README.md
+  schema.json
+  manifest.json
+  SHA256SUMS
+```
+
+Each regime contains 31,669 train and 5,000 validation records. ID order, splits, labels and all exported source fields are preserved. No test rows or test IDs are uploaded. Test remains held out locally; it is still needed for final evaluation.
+`sequence` is the DNA target. `core_predicted_tm` and `core_g4stab_std` are the core prediction and ensemble uncertainty in °C. `sequence[core_start_offset:core_end_offset]` is the labelled reference core, using zero-based, end-exclusive offsets.
+Use `split` for the current partition (`train`/`val`); `source_split` is earlier provenance. CSVs retain the frozen parent schema, described in `schema.json`.
+The complete 74,872-row unconditional training cohort, original source interval data, hg38 FASTA and predictor weights are not uploaded. Do not treat this smaller qualified Tm subset as the full-data unconditional cohort.
 

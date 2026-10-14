@@ -1,6 +1,14 @@
 {
   "created_utc": "2026-10-14T20:05:31.803446+00:00",
-  "excluded": "legacy weights, provisional/partial weights, optimizer states, real datasets, credentials and cloud-operation metadata",
+  "excluded": "legacy weights, provisional/partial weights, optimizer states, full unconditional parent datasets, held-out test rows, credentials and cloud-operation metadata",
+  "dataset_addendum": {
+    "release_id": "paired-g4-reference-core-tm-trainval-20261014-v1",
+    "path": "datasets/g4_tm/manifest.json",
+    "regimes": ["short", "nt512", "nt1024"],
+    "rows_each": {"train": 31669, "val": 5000},
+    "test_rows_uploaded": 0,
+    "label_scope": "reference_G4_core"
+  },
   "github_repo": "Vsemmir13/return-of-the-lstm-nonb-dna",
   "hf_repo": "vsemmir13/return-of-the-lstm-nonb-dna",
   "models": {

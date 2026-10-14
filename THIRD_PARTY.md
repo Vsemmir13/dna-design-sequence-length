@@ -12,7 +12,7 @@ Our declared modification is a continuous scalar Tm encoder and learned null con
 
 ## Data and predictors
 
-G4-associated loci originate from EndoQuad and hg38. Tm labels are computational G4STAB core predictions. This initial release does not redistribute reference genomes, source interval datasets, predictor weights or real-sequence training cohorts.
+G4-associated loci originate from EndoQuad and hg38. Tm labels are computational G4STAB core predictions. The private Hugging Face repository includes the frozen qualified train/validation tables for short, 512-nt and 1,024-nt sequences. Reference genomes, original source interval datasets, predictor weights, full unconditional cohorts and held-out test rows are not uploaded.
 Generated samples are frozen model outputs, not experimentally validated structures. Underlying resources retain their own terms.
 
 ## Release status
