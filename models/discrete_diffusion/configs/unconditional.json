@@ -1,0 +1,19 @@
+{
+  "model_factory": "make_unconditional_model",
+  "role": "learned-null branch of the same prepared joint model; not a separate unconditional fit",
+  "architecture": {
+    "channels": 128,
+    "time_embed_dim": 210,
+    "sequence_length": 49,
+    "tm_mean": 57.84716468707569,
+    "tm_std": 8.054890567895972
+  },
+  "trainable_parameters": 3662565,
+  "requires_external_author_checkout": true,
+  "shared_checkpoint_config": "conditional.json",
+  "state_dict_keys_identical_to_conditional": true,
+  "forward_condition": "labels=None selects the learned null scalar",
+  "length_encoder": false,
+  "sequence_padding_or_cropping": false,
+  "trained_checkpoint": false
+}

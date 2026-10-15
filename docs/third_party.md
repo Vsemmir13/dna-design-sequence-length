@@ -23,6 +23,13 @@ The actual upstream LICENSE permits **academic research use only** and prohibits
 Our capacity-matched adaptation reduces CNN channels 256→128 and time embedding 256→244, and replaces the CAGE input channel with a broadcast Tm/null feature. GroupNorm, activations and the CNN forward remain from the author implementation. This is not an unchanged original-capacity reproduction.
 The license restriction applies to this DDSM-derived code; no repository-wide license overrides it.
 
+## Discrete Diffusion — D3
+
+[anirbansarkar-cs/D3-DNA-Discrete-Diffusion](https://github.com/anirbansarkar-cs/D3-DNA-Discrete-Diffusion), commit `76d1976b03bb844531482f2104e589562a56880b`, accompanying [Sarkar et al.](https://www.biorxiv.org/content/10.1101/2024.05.23.595630v3).
+Its README and package metadata declare MIT, but no standalone LICENSE file is present in the pinned tree. This snapshot does not vendor the author source: the loader verifies three supplied source files and executes only the original CNN class definitions.
+Our adapter retains the author promoter-specific forward, GroupNorm, activations and dilation order; it reduces channels 256→128/time embedding 256→210 and replaces the signal input with a continuous Tm/null feature. No upstream install scripts, trainer, sampler or heavy Transformer dependencies are imported or redistributed.
+The uniform-graph score-entropy training protocol is prepared, not a completed result. The upstream Euler-128 negative-weight issue remains a documented numerical gate; no repaired generations or quality claims are included.
+
 ## Data and predictors
 
 G4-associated loci originate from EndoQuad and hg38. Tm labels are computational G4STAB core predictions. The private Hugging Face repository includes the frozen qualified train/validation tables for short, 512-nt and 1,024-nt sequences. Reference genomes, original source interval datasets, predictor weights, full unconditional cohorts and held-out test rows are not uploaded.

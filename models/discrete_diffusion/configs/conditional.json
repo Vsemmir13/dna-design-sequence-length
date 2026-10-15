@@ -1,0 +1,63 @@
+{
+  "model_factory": "make_d3_model",
+  "role": "CPU-verified Tm/null adaptation; not a trained-result claim",
+  "architecture": {
+    "channels": 128,
+    "time_embed_dim": 210,
+    "sequence_length": 49,
+    "tm_mean": 57.84716468707569,
+    "tm_std": 8.054890567895972
+  },
+  "trainable_parameters": 3662565,
+  "unused_original_trainable_parameters_retained": 44311,
+  "fixed_fourier_parameters": 105,
+  "original_cnn_trainable_parameters": 13403653,
+  "source_repository": "https://github.com/anirbansarkar-cs/D3-DNA-Discrete-Diffusion",
+  "source_commit": "76d1976b03bb844531482f2104e589562a56880b",
+  "requires_external_author_checkout": true,
+  "regimes": {
+    "short": {"sequence_length": 49, "length_nt": [13, 49], "microbatch_size": 128},
+    "nt512": {"sequence_length": 512, "length_nt": [512, 512], "microbatch_size": 64},
+    "nt1024": {"sequence_length": 1024, "length_nt": [1024, 1024], "microbatch_size": 32}
+  },
+  "temperature_encoder": {"layers": [1, 8, 8], "activation": "SiLU", "projection": [8, 1], "label_scope": "reference G4 core"},
+  "length_encoder": false,
+  "sequence_padding_or_cropping": false,
+  "training_protocol": {
+    "status": "prepared; GPU training not started",
+    "seed": 42,
+    "train_rows": 31669,
+    "validation_rows": 5000,
+    "test_fit_selection_rows": 0,
+    "source_distribution": "uniform A/C/G/T",
+    "graph": "Uniform(4)",
+    "noise": {"type": "geometric", "sigma_min": 0.0001, "sigma_max": 20, "time_epsilon": 0.001},
+    "loss": "original D3 score entropy: sum positions, then mean sequences; no CE auxiliary",
+    "optimizer": "AdamW",
+    "learning_rate": 0.0003,
+    "weight_decay": 0,
+    "warmup_steps": 2500,
+    "gradient_clip_norm": 1.0,
+    "global_batch_size": 128,
+    "precision": "FP32, not the forced upstream CUDA FP16 score scope",
+    "condition_drop_probability": 0.3,
+    "ema_decay": 0.9999,
+    "ema_update": "after optimizer, as in author get_step_fn",
+    "selected_weights": "EMA",
+    "maximum_epochs": 300,
+    "minimum_epochs": 50,
+    "early_stopping_patience": 20,
+    "early_stopping_min_delta": 0.001,
+    "checkpoint_selection": "strict minimum fixed-noise 0.7*conditional_EMA_loss + 0.3*null_EMA_loss"
+  },
+  "sampling_reference": {
+    "status": "numerical gate not passed; not ready for a biological generation cohort",
+    "predictor": "original EulerPredictor",
+    "steps": 128,
+    "final_denoiser": true,
+    "score_evaluations": 129,
+    "known_issue": "negative categorical weights under the upstream default noise schedule",
+    "silent_probability_repair": false,
+    "implementation_in_this_repository": false
+  }
+}
