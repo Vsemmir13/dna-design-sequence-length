@@ -1,0 +1,54 @@
+{
+  "model_class": "TmDirichletDiffusionCNN",
+  "role": "prepared joint Tm-conditioned and learned-null model; not a trained-result claim",
+  "architecture": {
+    "channels": 128,
+    "embed_dim": 244,
+    "tm_mean": 57.84716468707569,
+    "tm_std": 8.054890567895972
+  },
+  "trainable_parameters": 3666795,
+  "fixed_fourier_parameters": 122,
+  "original_cnn_parameters": 13272069,
+  "source_repository": "https://github.com/jzhoulab/ddsm",
+  "source_commit": "ff20be49138589ae0f477b4039feafa7343de2a2",
+  "regimes": {
+    "short": {"length_nt": [13, 49], "microbatch_size": 256},
+    "nt512": {"length_nt": [512, 512], "microbatch_size": 64},
+    "nt1024": {"length_nt": [1024, 1024], "microbatch_size": 32}
+  },
+  "training_protocol": {
+    "status": "prepared; GPU training has not started",
+    "seed": 42,
+    "train_rows": 31669,
+    "validation_rows": 5000,
+    "test_fit_selection_rows": 0,
+    "optimizer": "Adam",
+    "learning_rate": 0.0005,
+    "global_batch_size": 256,
+    "precision": "FP32",
+    "maximum_epochs": 200,
+    "minimum_epochs": 50,
+    "early_stopping_patience": 20,
+    "early_stopping_min_delta": 0.001,
+    "condition_drop_probability": 0.3,
+    "loss": "original stick-breaking denoising score matching, no auxiliary cross-entropy",
+    "checkpoint_selection": "strict minimum fixed-noise 0.7*conditional_score_loss + 0.3*null_score_loss"
+  },
+  "required_noise": {
+    "generator": "original Jacobi noise_factory",
+    "samples": 100000,
+    "time_points": 400,
+    "time_range": [0.01, 4.0],
+    "jacobi_order": 1000,
+    "steps_per_tick": 200,
+    "speed_balanced": true,
+    "mode": "path",
+    "dtype": "float64",
+    "approximate_fallback": false
+  },
+  "temperature_encoder": {"layers": [1, 8, 8], "activation": "SiLU", "projection": [8, 1], "label_scope": "reference G4 core"},
+  "length_encoder": false,
+  "sequence_padding_or_cropping": false,
+  "sampling_reference": {"status": "deferred", "solver": "original Euler-Maruyama", "updates": 100, "time_range": [4.0, 0.01]}
+}

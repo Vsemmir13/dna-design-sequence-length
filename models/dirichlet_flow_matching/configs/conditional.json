@@ -1,0 +1,52 @@
+{
+  "model_class": "TmDirichletFlowCNN",
+  "role": "joint Tm-conditioned and learned-null model",
+  "architecture": {
+    "hidden_dim": 128,
+    "num_cnn_stacks": 4,
+    "dropout": 0.0,
+    "tm_mean": 57.84716468707569,
+    "tm_std": 8.054890567895972
+  },
+  "trainable_parameters": 3661532,
+  "fixed_fourier_parameters": 64,
+  "source_repository": "https://github.com/HannesStark/dirichlet-flow-matching",
+  "source_commit": "6f360612da8f69ecf4860c075f74ed52b37ce64b",
+  "regimes": {
+    "short": {"length_nt": [13, 49], "microbatch_size": 256},
+    "nt512": {"length_nt": [512, 512], "microbatch_size": 64},
+    "nt1024": {"length_nt": [1024, 1024], "microbatch_size": 32}
+  },
+  "training": {
+    "seed": 42,
+    "train_rows": 31669,
+    "validation_rows": 5000,
+    "test_fit_selection_rows": 0,
+    "optimizer": "Adam",
+    "learning_rate": 0.0005,
+    "global_batch_size": 256,
+    "precision": "FP32",
+    "gradient_clip_norm": 1.0,
+    "maximum_epochs": 800,
+    "minimum_epochs": 50,
+    "early_stopping_patience": 20,
+    "early_stopping_min_delta": 0.001,
+    "condition_drop_probability": 0.3,
+    "loss": "author cross-entropy, positions averaged per sequence, then sequences averaged equally",
+    "alpha": "1 + 2 * Exp(1)",
+    "checkpoint_selection": "strict minimum fixed-noise 0.7*conditional_CE + 0.3*null_CE"
+  },
+  "temperature_encoder": {"layers": [1, 8, 8], "activation": "SiLU", "projection": [8, 128], "label_scope": "reference G4 core"},
+  "length_encoder": false,
+  "sequence_padding_or_cropping": false,
+  "sampling_reference": {
+    "status": "deferred; guidance has not been selected on validation",
+    "integration_grid_points": 100,
+    "actual_euler_updates": 99,
+    "alpha_range": [1, 8],
+    "prior_pseudocount": 2,
+    "guidance_scale_default": 1,
+    "short_length_prior": "empirical training lengths",
+    "decoder": "original last conditional logits argmax"
+  }
+}

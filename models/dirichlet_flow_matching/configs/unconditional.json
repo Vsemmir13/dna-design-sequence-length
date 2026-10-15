@@ -1,0 +1,17 @@
+{
+  "model_class": "NullDirichletFlowCNN",
+  "role": "learned-null branch of the joint Tm model; not an independent unconditional fit",
+  "architecture": {
+    "hidden_dim": 128,
+    "num_cnn_stacks": 4,
+    "dropout": 0.0,
+    "tm_mean": 57.84716468707569,
+    "tm_std": 8.054890567895972
+  },
+  "trainable_parameters": 3661532,
+  "shared_checkpoint_config": "conditional.json",
+  "state_dict_keys_identical_to_conditional": true,
+  "condition": "author null-class sentinel 1, mapped to the learned null vector",
+  "length_encoder": false,
+  "sequence_padding_or_cropping": false
+}
