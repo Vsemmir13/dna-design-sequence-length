@@ -3,7 +3,8 @@
 Adaptation of [DNA Discrete Diffusion](https://github.com/anirbansarkar-cs/D3-DNA-Discrete-Diffusion),
 commit `76d1976b03bb844531482f2104e589562a56880b`, from
 [Sarkar et al.](https://www.biorxiv.org/content/10.1101/2024.05.23.595630v3).
-**CPU-verified code only: no full GPU fit or generation-quality results.**
+GPU training has started under the protocol below. No completed weights or
+biological generation cohorts are released in the 16 October 2026 snapshot.
 
 The author promoter CNN retains 20 kernel-9 blocks, GroupNorm, SiLU/GELU and
 `[1,1,4,16,64]×4` dilations. Channels 256→128 and time embedding 256→210 give
@@ -16,7 +17,7 @@ Tm uses the same `Linear(1,8) → SiLU → Linear(8,8)` encoder as LSTM, then an
 scalar and 30% condition dropout support both modes in one joint network.
 Tm labels describe the reference G4 core, not the complete genomic window.
 
-The prepared protocol uses the same 31,669 train / 5,000 validation IDs as the
+The training protocol uses the same 31,669 train / 5,000 validation IDs as the
 other Tm models, with no test-based fitting or selection. Short examples are
 grouped by exact length, without a length encoder, sequence PAD or cropping.
 
@@ -57,10 +58,10 @@ generation. For fixed-length models, the input must have exactly 512 / 1024 nt.
 
 ## Training and sampling boundary
 
-The prepared method uses the author's uniform graph, geometric noise and
+The method uses the author's uniform graph, geometric noise and
 score-entropy objective, not cross-entropy or flow matching. Loss sums positions
 before averaging sequences; raw losses are not comparable across lengths.
-Prepared settings: AdamW 3e-4, warmup 2,500, clip 1, batch 128 and EMA 0.9999.
+Training settings: AdamW 3e-4, warmup 2,500, clip 1, batch 128 and EMA 0.9999.
 Maximum 300 / minimum 50 epochs and fixed-noise 0.7 conditional + 0.3 null EMA
 validation selection are our stopping/selection adaptations. FP32 explicitly
 replaces the author's forced CUDA-FP16 score scope.

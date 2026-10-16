@@ -18,6 +18,7 @@
     "nt1024": {"length_nt": [1024, 1024], "microbatch_size": 32}
   },
   "training": {
+    "status": "completed; selected final checkpoints released",
     "seed": 42,
     "train_rows": 31669,
     "validation_rows": 5000,
@@ -39,13 +40,18 @@
   "temperature_encoder": {"layers": [1, 8, 8], "activation": "SiLU", "projection": [8, 128], "label_scope": "reference G4 core"},
   "length_encoder": false,
   "sequence_padding_or_cropping": false,
+  "selected_epochs_one_based": {"short": 55, "nt512": 52, "nt1024": 93},
   "sampling_reference": {
-    "status": "deferred; guidance has not been selected on validation",
+    "status": "generated; guidance scale has not been selected on validation",
     "integration_grid_points": 100,
     "actual_euler_updates": 99,
     "alpha_range": [1, 8],
     "prior_pseudocount": 2,
-    "guidance_scale_default": 1,
+    "conditional_cfg_scales": [0.5, 1.0, 2.0, 3.0],
+    "null_condition_generation": true,
+    "samples_per_cohort": 5000,
+    "targets_celsius": [45, 50, 55, 60, 65, 70, 75, 80],
+    "samples_per_target": 625,
     "short_length_prior": "empirical training lengths",
     "decoder": "original last conditional logits argmax"
   }

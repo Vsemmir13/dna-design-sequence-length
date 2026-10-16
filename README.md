@@ -1,14 +1,16 @@
 # Return of the LSTM: Non-B DNA Generation
 
-Models for generating G-quadruplex-associated DNA: short sequences of 13–49 nucleotides and genomic windows of 512 or 1,024 nucleotides around G4 loci.
+PyTorch architectures and experiment settings for generating G-quadruplex-associated DNA: short cores and 512- or 1,024-nucleotide genomic windows containing those cores.
 
 - **LSTM** generates DNA one nucleotide at a time.
 - **Discrete Flow Matching** uses a convolutional network to update a whole sequence over sampling steps.
 - **Dirichlet Flow Matching** moves continuous nucleotide probabilities along a learned flow.
-- **Dirichlet Diffusion** reverses a Jacobi diffusion process on nucleotide probabilities; its adaptation is prepared but not yet trained.
-- **Discrete Diffusion (D3)** models substitutions between discrete nucleotides; its adaptation is CPU-verified but not yet trained, and the default sampler has an unresolved numerical gate.
+- **Dirichlet Diffusion** reverses Jacobi diffusion on nucleotide probabilities.
+- **Discrete Diffusion (D3)** models nucleotide substitutions; GPU training has started, but completed weights and samples are not released. Its sampler still requires a numerical check described in the model notes.
 
-The models support unconditional generation and conditioning on the melting temperature (Tm) of a G4 core. Tm labels are predictions, not experimental measurements; for long windows they describe the embedded core, not the entire sequence.
+The current comparison uses the same 31,669 training and 5,000 validation examples for all models. LSTM has separate unconditional and Tm-conditioned fits; the convolutional models use joint Tm/null fits. Tm is a G4STAB prediction for the G4 core, not an experimental measurement or the temperature of the whole genomic window.
+
+LSTM generates until its own EOS token, without forcing a requested length or cropping. Thus a model trained on 512-nt windows need not output exactly 512 nt. Convolutional models instead generate at the requested tensor width: short lengths follow the training distribution, while long windows are fixed at 512 or 1,024 nt. They do not use an EOS token or a learned length embedding.
 
 [Hugging Face: weights, generated sequences, datasets and training curves](https://huggingface.co/vsemmir13/return-of-the-lstm-nonb-dna)
 
@@ -16,27 +18,7 @@ The models support unconditional generation and conditioning on the melting temp
 
 ```text
 models/
-  lstm/
-    configs/
-      unconditional.json
-      conditional.json
-    architectures/
-      unconditional.py
-      conditional.py
-  discrete_flow_matching/
-    configs/
-      unconditional.json
-      conditional.json
-    architectures/
-      unconditional.py
-      conditional.py
-  dirichlet_flow_matching/
-    configs/{unconditional,conditional}.json
-    architectures/{unconditional,conditional}.py
-  dirichlet_diffusion/
-    configs/{unconditional,conditional}.json
-    architectures/{unconditional,conditional}.py
-  discrete_diffusion/
+  <model>/
     configs/{unconditional,conditional}.json
     architectures/{unconditional,conditional}.py
 docs/
@@ -44,7 +26,13 @@ README.md
 requirements.txt
 ```
 
-`architectures` contains the PyTorch model definitions; `configs` records their dimensions and experiment settings. The unconditioned Discrete Flow Matching file is an untrained architecture reference. For the two Dirichlet models and D3, `unconditional.py` exposes the learned null mode of the same joint Tm network, with identical checkpoint keys; it is not a separate unconditional fit.
+`<model>` is `lstm`, `discrete_flow_matching`, `dirichlet_flow_matching`, `dirichlet_diffusion` or `discrete_diffusion`. Architecture files define the networks; configs record dimensions, training and sampling settings. The unconditional Discrete Flow Matching file is an untrained source reference, not the released joint checkpoint. Its released null mode is loaded through `conditional.py` with a null payload. The Dirichlet and D3 unconditional files expose the null branch of the joint network.
+
+## Available artifacts
+
+Release snapshot: 16 October 2026. LSTM, both flow-matching models and Dirichlet Diffusion have validation-selected weights and 5,000-sequence generation cohorts on Hugging Face. D3 has no completed release yet. Only final selected weights and completed training curves are published; generation settings are recorded beside each cohort. Temperature and CFG sweeps are comparisons, not a preselected best setting.
+
+The uploaded datasets contain G4 train/validation tables for all three lengths and a separate mouse Z-DNA-associated 256-nt dataset. New Z-DNA model results are not part of this release. Evaluation is in progress; these artifacts do not establish a winning model or experimentally confirmed DNA structures.
 
 ## Getting started
 

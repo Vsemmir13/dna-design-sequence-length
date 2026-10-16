@@ -28,14 +28,14 @@ The license restriction applies to this DDSM-derived code; no repository-wide li
 [anirbansarkar-cs/D3-DNA-Discrete-Diffusion](https://github.com/anirbansarkar-cs/D3-DNA-Discrete-Diffusion), commit `76d1976b03bb844531482f2104e589562a56880b`, accompanying [Sarkar et al.](https://www.biorxiv.org/content/10.1101/2024.05.23.595630v3).
 Its README and package metadata declare MIT, but no standalone LICENSE file is present in the pinned tree. This snapshot does not vendor the author source: the loader verifies three supplied source files and executes only the original CNN class definitions.
 Our adapter retains the author promoter-specific forward, GroupNorm, activations and dilation order; it reduces channels 256→128/time embedding 256→210 and replaces the signal input with a continuous Tm/null feature. No upstream install scripts, trainer, sampler or heavy Transformer dependencies are imported or redistributed.
-The uniform-graph score-entropy training protocol is prepared, not a completed result. The upstream Euler-128 negative-weight issue remains a documented numerical gate; no repaired generations or quality claims are included.
+GPU training uses the uniform-graph score-entropy protocol; completed D3 weights and biological samples are not released in this snapshot. The upstream Euler-128 negative-weight issue remains a documented numerical gate; no repaired generations or quality claims are included.
 
 ## Data and predictors
 
-G4-associated loci originate from EndoQuad and hg38. Tm labels are computational G4STAB core predictions. The private Hugging Face repository includes the frozen qualified train/validation tables for short, 512-nt and 1,024-nt sequences. Reference genomes, original source interval datasets, predictor weights, full unconditional cohorts and held-out test rows are not uploaded.
+G4-associated regions originate from EndoQuad and hg38. Tm labels are computational G4STAB core predictions. Hugging Face includes the frozen qualified train/validation tables for short, 512-nt and 1,024-nt sequences and a separate GSE224553 mouse Z-DNA-associated dataset. Reference genomes, original source interval datasets, predictor weights, the full parent training cohort and held-out test rows are not uploaded.
 Generated samples are frozen model outputs, not experimentally validated structures. Underlying resources retain their own terms.
 
 ## Release status
 
-Software, weight and sample licensing for a public paper release remains to be approved by the authors. Private storage does not grant additional redistribution rights.
+Resources and model families have different upstream terms; this repository does not grant a single permissive license over all of them. In particular, the DDSM-derived implementation is academic-research-only. Before reuse or redistribution, check the linked upstream terms and dataset sources. Storage or download access does not override those terms.
 

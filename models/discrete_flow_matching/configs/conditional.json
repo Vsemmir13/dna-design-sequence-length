@@ -21,6 +21,10 @@
     "nt1024": {"length_nt": [1024, 1024], "microbatch_size": 64}
   },
   "training": {
+    "status": "completed; selected final checkpoints released",
+    "train_rows": 31669,
+    "validation_rows": 5000,
+    "test_fit_selection_rows": 0,
     "seed": 42,
     "maximum_epochs": 600,
     "minimum_epochs": 50,
@@ -39,12 +43,17 @@
     "checkpoint_selection": "minimum fixed-validation 0.7*conditional_GKL + 0.3*null_GKL"
   },
   "length_encoder": false,
+  "selected_epochs_one_based": {"short": 55, "nt512": 45, "nt1024": 162},
   "sampling": {
     "seed": 42,
     "solver": "MixtureDiscreteEulerSolver",
     "steps": 100,
     "interval": [0.0, 0.999],
-    "cfg_scale": 3.0,
+    "conditional_cfg_scales": [0.5, 1.0, 2.0, 3.0],
+    "null_condition_generation": true,
+    "guidance_scale_selected_by_validation": false,
+    "original_mask_outputs": "retained as N in original cohorts",
+    "replacement_variant": "invalid_output_resampled_20261016_v1; only invalid rows redrawn under the same settings",
     "length_prior_split": "train",
     "conditional_samples": 5000,
     "null_condition_samples": 5000,

@@ -48,7 +48,19 @@ with torch.no_grad():
 of this same network. Its state-dict keys and parameter count are identical;
 it does not represent a separately trained unconditional checkpoint.
 
-These files define the network, not a full sampler. The prepared original
-inference uses 100 grid points (99 Euler updates); guidance is not yet selected
-on validation. This addition contains no weights, generation cohorts or quality
-measurements. See [sources and licensing](third_party.md).
+## Released runs and generation
+
+All three fits have selected checkpoints: epochs 55 / 52 / 93 for short / 512 /
+1,024 nt. Only the selected final weights and complete available training curves
+are published on [Hugging Face](https://huggingface.co/vsemmir13/return-of-the-lstm-nonb-dna).
+
+The original sampler uses 100 grid points (99 Euler updates), alpha from 1 to 8
+and the author's last-logits argmax decoder. Each length has a 5,000-sequence
+null cohort and conditional CFG 0.5, 1, 2 and 3 cohorts. Conditional targets are
+45–80 °C in 5 °C increments, 625 samples per target. No guidance scale has been
+declared the validation-selected winner. Tensor width sets the length; short
+lengths follow the empirical training distribution. There is no EOS, padding
+or output cropping in this sampler.
+
+This repository defines the network, not a full sampler or trainer. Quality
+evaluation is separate from training completion. See [sources and licensing](third_party.md).

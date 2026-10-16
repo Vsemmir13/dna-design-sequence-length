@@ -1,6 +1,6 @@
 {
   "model_class": "NullDirichletDiffusionCNN",
-  "role": "learned-null branch of the prepared joint Tm model; not an independent unconditional fit",
+  "role": "learned-null branch of the trained joint Tm model; not an independent unconditional fit",
   "architecture": {
     "channels": 128,
     "embed_dim": 244,
@@ -13,5 +13,5 @@
   "condition": "separate learned null scalar; not physical Tm zero",
   "length_encoder": false,
   "sequence_padding_or_cropping": false,
-  "trained_checkpoint": false
+  "trained_checkpoint": true
 }

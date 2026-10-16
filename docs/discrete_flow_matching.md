@@ -12,15 +12,17 @@ Payload: `[raw Celsius, condition-present flag]`; null is not a physical target 
 Short sequences are grouped by exact length; no sequence padding/cropping or length MLP. Requested tensor widths follow the train empirical prior at generation.
 Training: upstream Meta generalized KL, MASK source, quadratic path, AdamW 5e-4, global batch 1024, 500-step warmup, gradient clip 1 and condition dropout 0.3.
 Maximum 600 epochs; minimum 50, validation patience 20 and minimum significant improvement 0.001. Strict-minimum checkpoint selection is separate from plateau stopping; budget stopping is a separate status.
-Sampling: original author wrapper, 100 solver steps / 200 CNN forwards, CFG scale 3. MASK outcomes are not suppressed, replaced or topped up.
+Sampling uses the original author wrapper and 100 solver steps. The released grid has a null-condition cohort and conditional CFG scales 0.5, 1, 2 and 3, with 5,000 outputs per setting. The wrapper evaluates conditional and null branches; no CFG scale is designated the validation-selected winner. Best epochs are 55 / 45 / 162 for short / 512 / 1,024 nt.
+
+Original MASK outcomes are exported as N and retained in their original cohorts. The explicitly named `invalid_output_resampled_20261016_v1` variants replace only those invalid rows using the same weights, CFG, requested length and Tm. They are separate rejection-sampling cohorts, not untouched outputs. This does not introduce EOS decoding or cropping; the generated tensor width stays fixed.
 
 Available checkpoints and generated samples are listed on [Hugging Face](https://huggingface.co/vsemmir13/return-of-the-lstm-nonb-dna).
 
 ## Load the upstream architecture without vendoring it
 
 ```bash
-git clone https://github.com/hashaam13/flow external/author-flow
-git -C external/author-flow checkout cf186ba7f8551d2c305b79a863d569eed86665b7
+git clone https://github.com/hashaam13/flow /path/to/author-flow
+git -C /path/to/author-flow checkout cf186ba7f8551d2c305b79a863d569eed86665b7
 ```
 
 Use a checkout outside this repository. The architecture files import the pinned CNN without copying its source here.

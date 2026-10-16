@@ -2,7 +2,8 @@
 
 Adapted from [Avdeyev et al., ICML 2023](https://proceedings.mlr.press/v202/avdeyev23a.html),
 using `jzhoulab/ddsm@ff20be49138589ae0f477b4039feafa7343de2a2`.
-**This is prepared architecture/protocol code, not a trained result.**
+All three G4 fits are complete; selected weights, training curves and generated
+sequences are available on [Hugging Face](https://huggingface.co/vsemmir13/return-of-the-lstm-nonb-dna).
 
 The original promoter CNN has 256 channels and 13,272,069 trainable parameters.
 For comparison with our other models, this version uses 128 channels and a
@@ -48,19 +49,31 @@ The constructor initializes time-dependent score weights to ones for shape
 compatibility; real fitting requires train-calibrated weights, and loading a
 trained checkpoint restores them. Random initialization is not a trained model.
 
-## Training boundary
+## Training and generation
 
-The prepared objective is the author's stick-breaking denoising score loss,
+The objective is the author's stick-breaking denoising score loss,
 not cross-entropy. It requires the original float64 Jacobi noise table
 (100,000 samples, 400 time points); approximate noise is not a fallback.
 Noise is generated in independent-sample chunks, and time-weight calibration
 uses `scatter_add_` to accumulate repeated time bins correctly. These are
 declared implementation adaptations, not a bitwise reproduction claim.
 
-Prepared training: Adam 5e-4, FP32, global batch 256, maximum 200 / minimum 50
+Training: Adam 5e-4, FP32, global batch 256, maximum 200 / minimum 50
 epochs, patience 20. Selection uses fixed-noise validation score loss, weighted
 0.7 conditional + 0.3 null, rather than the paper's promoter SEI MSE.
-GPU training, generations, guidance selection and quality metrics are pending.
+The short / 512 / 1,024 fits completed 77 / 119 / 102 epochs, selecting epochs
+69 / 113 / 100. No auxiliary cross-entropy, LR scheduler or gradient clipping
+was used.
+
+Generation uses the original Euler–Maruyama sampler with 100 updates from time
+4 to 0.01. A categorical draw from the final simplex exports A/C/G/T, using a
+separate decoder RNG; it is not an argmax decoder. Each length has 5,000 outputs
+for the null condition and for each CFG scale 0.5, 1, 2 and 3. Conditional cohorts
+allocate 625 outputs to each requested core Tm from 45 to 80 °C. Short tensor
+widths follow the training length distribution; 512/1,024 widths are fixed.
+No EOS token, sequence padding, post-hoc cropping or output filtering is used.
+Guidance-scale selection and generation-quality evaluation are separate from
+the completed training runs.
 
 The original code is restricted to academic research. Its full license notice
 is retained in the architecture file; see [sources and licensing](third_party.md).

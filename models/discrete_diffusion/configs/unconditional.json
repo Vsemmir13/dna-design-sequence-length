@@ -1,6 +1,6 @@
 {
   "model_factory": "make_unconditional_model",
-  "role": "learned-null branch of the same prepared joint model; not a separate unconditional fit",
+  "role": "learned-null branch of the joint model; not a separate unconditional fit",
   "architecture": {
     "channels": 128,
     "time_embed_dim": 210,
@@ -15,5 +15,5 @@
   "forward_condition": "labels=None selects the learned null scalar",
   "length_encoder": false,
   "sequence_padding_or_cropping": false,
-  "trained_checkpoint": false
+  "completed_checkpoint_released": false
 }

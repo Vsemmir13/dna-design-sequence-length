@@ -16,6 +16,10 @@
     "nt1024": {"length_nt": [1024, 1024], "microbatch_size": 64, "accumulate_grad_batches": 8}
   },
   "training": {
+    "status": "completed; retrained on the shared qualified cohort",
+    "train_rows": 31669,
+    "validation_rows": 5000,
+    "test_fit_selection_rows": 0,
     "seed": 42,
     "epochs": 50,
     "effective_batch_size": 512,
@@ -28,7 +32,21 @@
     "drop_last_effective_batch": true,
     "checkpoint_selection": "minimum full-validation cross-entropy"
   },
-  "sampling": {"seed": 42, "temperature": 1.0, "top_k": 0, "length_prior_split": "train"},
+  "selected_epochs_one_based": {"short": 18, "nt512": 45, "nt1024": 47},
+  "sampling": {
+    "seed": 42,
+    "temperature": 1.0,
+    "temperature_sweep_short": [0.8, 0.9, 1.0, 1.1, 1.2, 1.3],
+    "top_k": 0,
+    "decoder": "categorical draw from softmax(logits / temperature)",
+    "length_policy": "native_eos",
+    "length_prior_split": null,
+    "forced_eos": false,
+    "posthoc_crop": false,
+    "maximum_decoding_steps": {"short": 200, "nt512": 2052, "nt1024": 4100},
+    "safety_guard_policy": "retain and flag unfinished prefixes; never force completion",
+    "samples_per_cohort": 5000
+  },
   "length_encoder": false,
   "temperature_encoder": false
 }

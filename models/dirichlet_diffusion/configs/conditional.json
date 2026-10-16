@@ -1,6 +1,6 @@
 {
   "model_class": "TmDirichletDiffusionCNN",
-  "role": "prepared joint Tm-conditioned and learned-null model; not a trained-result claim",
+  "role": "trained joint Tm-conditioned and learned-null model",
   "architecture": {
     "channels": 128,
     "embed_dim": 244,
@@ -18,7 +18,7 @@
     "nt1024": {"length_nt": [1024, 1024], "microbatch_size": 32}
   },
   "training_protocol": {
-    "status": "prepared; GPU training has not started",
+    "status": "completed; selected final checkpoints released",
     "seed": 42,
     "train_rows": 31669,
     "validation_rows": 5000,
@@ -50,5 +50,19 @@
   "temperature_encoder": {"layers": [1, 8, 8], "activation": "SiLU", "projection": [8, 1], "label_scope": "reference G4 core"},
   "length_encoder": false,
   "sequence_padding_or_cropping": false,
-  "sampling_reference": {"status": "deferred", "solver": "original Euler-Maruyama", "updates": 100, "time_range": [4.0, 0.01]}
+  "selected_epochs_one_based": {"short": 69, "nt512": 113, "nt1024": 100},
+  "completed_epochs": {"short": 77, "nt512": 119, "nt1024": 102},
+  "sampling_reference": {
+    "status": "generated; guidance scale has not been selected on validation",
+    "solver": "original Euler-Maruyama",
+    "updates": 100,
+    "time_range": [4.0, 0.01],
+    "decoder": "categorical draw from final simplex; separate decoder RNG",
+    "conditional_cfg_scales": [0.5, 1.0, 2.0, 3.0],
+    "null_condition_generation": true,
+    "samples_per_cohort": 5000,
+    "targets_celsius": [45, 50, 55, 60, 65, 70, 75, 80],
+    "samples_per_target": 625,
+    "short_length_prior": "empirical training lengths"
+  }
 }

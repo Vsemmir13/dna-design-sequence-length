@@ -1,6 +1,6 @@
 {
   "model_factory": "make_d3_model",
-  "role": "CPU-verified Tm/null adaptation; not a trained-result claim",
+  "role": "joint Tm/null adaptation; GPU training started, no completed release",
   "architecture": {
     "channels": 128,
     "time_embed_dim": 210,
@@ -24,7 +24,7 @@
   "length_encoder": false,
   "sequence_padding_or_cropping": false,
   "training_protocol": {
-    "status": "prepared; GPU training not started",
+    "status": "GPU training started; no completed checkpoint release in the 2026-10-16 snapshot",
     "seed": 42,
     "train_rows": 31669,
     "validation_rows": 5000,
