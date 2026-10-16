@@ -1,6 +1,6 @@
 {
   "model_factory": "make_d3_model",
-  "role": "joint Tm/null adaptation; GPU training started, no completed release",
+  "role": "completed joint Tm/null adaptation; selected EMA weights released",
   "architecture": {
     "channels": 128,
     "time_embed_dim": 210,
@@ -24,7 +24,7 @@
   "length_encoder": false,
   "sequence_padding_or_cropping": false,
   "training_protocol": {
-    "status": "GPU training started; no completed checkpoint release in the 2026-10-16 snapshot",
+    "status": "completed; selected EMA weights and full TensorBoard released",
     "seed": 42,
     "train_rows": 31669,
     "validation_rows": 5000,
@@ -50,13 +50,20 @@
     "early_stopping_min_delta": 0.001,
     "checkpoint_selection": "strict minimum fixed-noise 0.7*conditional_EMA_loss + 0.3*null_EMA_loss"
   },
+  "selected_epochs_one_based": {"short": 113, "nt512": 136, "nt1024": 187},
+  "completed_epochs": {"short": 132, "nt512": 156, "nt1024": 206},
   "sampling_reference": {
-    "status": "numerical gate not passed; not ready for a biological generation cohort",
+    "status": "20 numerical endpoint/CFG checks passed; full cohorts in progress",
     "predictor": "original EulerPredictor",
-    "steps": 128,
-    "final_denoiser": true,
-    "score_evaluations": 129,
-    "known_issue": "negative categorical weights under the upstream default noise schedule",
+    "steps": 512,
+    "final_denoiser": false,
+    "score_evaluations": 512,
+    "epsilon": 0.00001,
+    "precision": "FP32",
+    "guidance": "log-score null + scale * (conditional - null)",
+    "guidance_scales": [0, 0.5, 1, 2, 3],
+    "cohort_variant": "author_euler_small_step_no_final_denoiser_20261016_v1",
+    "upstream_default_not_used": "Euler128 can yield negative weights; final analytic denoiser can also yield negative weights",
     "silent_probability_repair": false,
     "implementation_in_this_repository": false
   }

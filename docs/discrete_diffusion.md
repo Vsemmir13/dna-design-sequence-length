@@ -3,8 +3,9 @@
 Adaptation of [DNA Discrete Diffusion](https://github.com/anirbansarkar-cs/D3-DNA-Discrete-Diffusion),
 commit `76d1976b03bb844531482f2104e589562a56880b`, from
 [Sarkar et al.](https://www.biorxiv.org/content/10.1101/2024.05.23.595630v3).
-GPU training has started under the protocol below. No completed weights or
-biological generation cohorts are released in the 16 October 2026 snapshot.
+Training is complete for all three lengths. Selected EMA weights and full
+TensorBoard histories are on Hugging Face. Null and CFG generation is in progress;
+only completed, verified cohorts are uploaded.
 
 The author promoter CNN retains 20 kernel-9 blocks, GroupNorm, SiLU/GELU and
 `[1,1,4,16,64]×4` dilations. Channels 256→128 and time embedding 256→210 give
@@ -66,10 +67,22 @@ Maximum 300 / minimum 50 epochs and fixed-noise 0.7 conditional + 0.3 null EMA
 validation selection are our stopping/selection adaptations. FP32 explicitly
 replaces the author's forced CUDA-FP16 score scope.
 
-The original Euler-128 sampler can produce **negative categorical weights**
-with its default noise schedule, even for a constant-score fixture. Local
-verification fails closed without clipping, renormalization or output repair.
-A passing sampler configuration must be frozen before a biological generation
-cohort. No sampler, trainer, weights or technical smoke artifacts are bundled here.
+Completed epochs are 132 / 156 / 206 for short / 512 / 1,024 nt. Selected EMA
+epochs are 113 / 136 / 187, using the strict validation criterion above.
+
+The original Euler-128 sampler can produce **negative categorical weights**;
+the final analytic denoiser also failed a numerical check. Our frozen generation
+configuration uses the author's unchanged Euler predictor with **512 updates,
+FP32, epsilon 1e-5 and no final denoiser**. This is a sampling adaptation, not a
+claim of reproducing the upstream default. It passed 20 checks covering lengths
+13, 49, 512 and 1,024 at null and CFG scales 0.5, 1, 2 and 3. Sampling fails on
+negative/nonfinite weights or zero mass, without clipping, renormalization or
+output repair. CFG is applied in log-score space as
+`null + scale * (conditional - null)` before the author's score conversion.
+
+Each requested cohort contains 5,000 sequences; conditional cohorts allocate
+625 to each target from 45 to 80 degrees Celsius in five-degree increments.
+Numerical validity is not a biological-quality result. No sampler, trainer,
+weights or technical smoke artifacts are bundled in this GitHub repository.
 
 Source provenance and licensing are in [third-party notes](third_party.md).

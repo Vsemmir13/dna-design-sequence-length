@@ -15,5 +15,5 @@
   "forward_condition": "labels=None selects the learned null scalar",
   "length_encoder": false,
   "sequence_padding_or_cropping": false,
-  "completed_checkpoint_released": false
+  "completed_checkpoint_released": true
 }

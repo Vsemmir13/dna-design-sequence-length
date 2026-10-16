@@ -6,7 +6,7 @@ PyTorch architectures and experiment settings for generating G-quadruplex-associ
 - **Discrete Flow Matching** uses a convolutional network to update a whole sequence over sampling steps.
 - **Dirichlet Flow Matching** moves continuous nucleotide probabilities along a learned flow.
 - **Dirichlet Diffusion** reverses Jacobi diffusion on nucleotide probabilities.
-- **Discrete Diffusion (D3)** models nucleotide substitutions; GPU training has started, but completed weights and samples are not released. Its sampler still requires a numerical check described in the model notes.
+- **Discrete Diffusion (D3)** models nucleotide substitutions; selected EMA weights and full training curves are released. Generation of the null/CFG grid is in progress.
 
 The current comparison uses the same 31,669 training and 5,000 validation examples for all models. LSTM has separate unconditional and Tm-conditioned fits; the convolutional models use joint Tm/null fits. Tm is a G4STAB prediction for the G4 core, not an experimental measurement or the temperature of the whole genomic window.
 
@@ -30,7 +30,9 @@ requirements.txt
 
 ## Available artifacts
 
-Release snapshot: 16 October 2026. LSTM, both flow-matching models and Dirichlet Diffusion have validation-selected weights and 5,000-sequence generation cohorts on Hugging Face. D3 has no completed release yet. Only final selected weights and completed training curves are published; generation settings are recorded beside each cohort. Temperature and CFG sweeps are comparisons, not a preselected best setting.
+Release snapshot: 16 October 2026. All five model families have validation-selected weights and completed training curves on Hugging Face. LSTM, both flow-matching models and Dirichlet Diffusion have generated cohorts; Discrete Diffusion cohorts are being added after completion and verification. Only final selected weights are published. Temperature and CFG sweeps are comparisons, not a preselected best setting.
+
+Per-cohort configs distinguish native-EOS output, filtering and replacement sampling. The new LSTM-1,024 sets at temperatures 1.0 and 1.1 contain 5,000 native-EOS outputs each after explicit rejection of sequences exceeding 1,025 nt; they are not unfiltered samples and are never cropped or force-terminated. Some earlier filtered sets contain fewer than 5,000 sequences.
 
 The uploaded datasets contain G4 train/validation tables for all three lengths and a separate mouse Z-DNA-associated 256-nt dataset. New Z-DNA model results are not part of this release. Evaluation is in progress; these artifacts do not establish a winning model or experimentally confirmed DNA structures.
 
