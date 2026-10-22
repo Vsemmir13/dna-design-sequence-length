@@ -1,4 +1,4 @@
-# Return of the LSTM: Non-B DNA Generation
+# Sequence length determines whether autoregressive models match diffusion and flow matching for DNA design
 
 PyTorch architectures and experiment settings for generating G-quadruplex-associated DNA: short cores and 512- or 1,024-nucleotide genomic windows containing those cores.
 
